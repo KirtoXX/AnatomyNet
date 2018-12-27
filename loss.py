@@ -10,9 +10,9 @@ class Dice_loss(nn.Module):
         b = pred.size(0)
         p = pred.view(b,-1)
         t = true.view(b,-1)
-        loss = 2*(p*t).sum(1)/(p.sum(1)+t.sum(1))
-        loss = loss.mean(0)
-        return 1 - loss
+        coff = 2*(p*t).sum(1)/(p.sum(1)+t.sum(1))
+        loss = 1- coff.mean(0)
+        return loss
 
 class Focal_loss(nn.Module):
     def __init__(self,pow=2):
