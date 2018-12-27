@@ -22,10 +22,12 @@ class SELayer(nn.Module):
 class ConvBlock(nn.Module):
     def __init__(self,input):
         super(ConvBlock, self).__init__()
-        self.conv1 = nn.Conv3d(in_channels=input,out_channels=input,kernel_size=(3,3,3),padding=(1,1,1))
+        self.conv1 = nn.Conv3d(in_channels=input,out_channels=input,kernel_size=(1,1,1))
         self.bn1 = nn.BatchNorm3d(num_features=input)
         self.conv2 = nn.Conv3d(in_channels=input, out_channels=input, kernel_size=(3,3,3),padding=(1,1,1))
         self.bn2 = nn.BatchNorm3d(num_features=input)
+        self.conv3 = nn.Conv3d(in_channels=input, out_channels=input, kernel_size=(1,1,1))
+        self.bn3 = nn.BatchNorm3d(num_features=input)
 
     def forward(self,x):
         x = self.conv1(x)
@@ -33,6 +35,9 @@ class ConvBlock(nn.Module):
         x = F.relu(x)
         x = self.conv2(x)
         x = self.bn2(x)
+        x = F.relu(x)
+        x = self.conv3(x)
+        x = self.bn3(x)
         x = F.relu(x)
         return x
 
@@ -52,8 +57,9 @@ class SE_ResBlock(nn.Module):
         return x
 
 
+
 def main():
-    data = torch.Tensor(1,16,512,512,50).cuda()
+    data = torch.Tensor(1,16,512,512,4).cuda()
     print(data.size())
     net = SE_ResBlock(channel=16)
     net.cuda()

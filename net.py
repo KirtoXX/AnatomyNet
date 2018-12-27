@@ -91,7 +91,7 @@ class AnatomyNet(nn.Module):
 
 def main():
     net = AnatomyNet(classes=10)
-    data = torch.Tensor(1,1,512,512,4)
+    data = torch.Tensor(1,1,256,256,10)
     data = data.cuda()
     net.cuda()
     result = net(data)
